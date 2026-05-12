@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Splop Game</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            padding: 40px;
+            max-width: 600px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 20px;
+            font-size: 3em;
+        }
+        
+        .game-board {
+            background: #f0f0f0;
+            border-radius: 10px;
+            padding: 20px;
+            margin: 30px 0;
+            min-height: 300px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .bubble {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            border: none;
+            color: white;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .bubble:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .bubble:active {
+            transform: scale(0.95);
+        }
+        
+        .score {
+            font-size: 1.5em;
+            color: #333;
+            margin: 20px 0;
+        }
+        
+        .button {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            border-radius: 25px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: transform 0.2s, box-shadow 0.2s;
+            margin: 10px;
+        }
+        
+        .button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.3);
+        }
+        
+        .button:active {
+            transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎮 Splop Game</h1>
+        <p>Tüm köpükleri patlatın!</p>
+        
+        <div class="score">
+            Puan: <span id="score">0</span> / <span id="total">0</span>
+        </div>
+        
+        <div class="game-board" id="gameBoard"></div>
+        
+        <div>
+            <button class="button" onclick="startGame()">Oyunu Başlat</button>
+            <button class="button" onclick="resetGame()">Sıfırla</button>
+        </div>
+    </div>
+
+    <script>
+        let score = 0;
+        let totalBubbles = 0;
+        let gameActive = false;
+
+        function createBubble() {
+            const bubble = document.createElement('button');
+            bubble.className = 'bubble';
+            bubble.textContent = '●';
+            bubble.onclick = (e) => {
+                if (gameActive) {
+                    score++;
+                    document.getElementById('score').textContent = score;
+                    bubble.remove();
+                    if (score === totalBubbles) {
+                        alert('🎉 Tebrikler! Oyunu kazandınız!');
+                        resetGame();
+                    }
+                }
+                e.stopPropagation();
+            };
+            return bubble;
+        }
+
+        function startGame() {
+            if (gameActive) return;
+            gameActive = true;
+            score = 0;
+            totalBubbles = Math.random() * 10 + 10 | 0;
+            document.getElementById('score').textContent = score;
+            document.getElementById('total').textContent = totalBubbles;
+            
+            const gameBoard = document.getElementById('gameBoard');
+            gameBoard.innerHTML = '';
+            
+            for (let i = 0; i < totalBubbles; i++) {
+                gameBoard.appendChild(createBubble());
+            }
+        }
+
+        function resetGame() {
+            gameActive = false;
+            score = 0;
+            document.getElementById('score').textContent = '0';
+            document.getElementById('total').textContent = '0';
+            document.getElementById('gameBoard').innerHTML = '';
+        }
+
+        // Sayfa yüklendiğinde
+        window.addEventListener('load', () => {
+            console.log('🎮 Splop Oyunu Yüklendi!');
+        });
+    </script>
+</body>
+</html>

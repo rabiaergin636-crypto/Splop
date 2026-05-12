@@ -1,0 +1,15 @@
+{
+  "name": "splop-game",
+  "version": "1.0.0",
+  "description": "Game interactive",
+  "scripts": {
+    "deploy": "bash deploy.sh && git add . && git commit -m 'Deploy: Extract zip and build' && git push",
+    "start": "npm run dev",
+    "dev": "npm run build",
+    "build": "echo 'Building...'",
+    "test": "echo 'No tests yet'"
+  },
+  "keywords": ["game", "interactive"],
+  "author": "rabiaergin636-crypto",
+  "license": "MIT"
+}
